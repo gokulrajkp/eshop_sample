@@ -1,21 +1,30 @@
-import { View, FlatList } from "react-native";
-import React from "react";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import getProducts from "../data/ProductData";
 import Card from "../components/Card";
 
 export default function Products({}) {
-  const data = getProducts().ProductsDetails;
-  get_imageUrl = (item) => {
-    var { ListImagePath } = item;
-    var imageUrl;
-    var image_end_url;
-    for (let i = 1; i < item.Images.length; i++) {
-      image_end_url = getProducts().ProductsDetails[0].Images.split("|", i);
-    }
-    imageUrl = ListImagePath + image_end_url;
-    imageurl = imageUrl;
-  };
+  const [loadMore, setLoadMore] = useState(10);
+  const [productList, setProductList] = useState(null);
 
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const loadData = () => {
+    setLoadMore(loadMore + 12);
+    getData();
+  };
+  const getData = () => {
+    const data = getProducts().ProductsDetails;
+    setProductList(data.slice(0, loadMore));
+  };
   const renderItem = (item) => {
     var baseurl = item.item.ListImagePath;
     var Images;
@@ -26,7 +35,6 @@ export default function Products({}) {
         Collection={item.item.Collection}
         Price={item.item.Price}
         ProductTitle={item.item.ProductTitle}
-        baseurl={item.item.ListImagePath}
         baseurl={baseurl}
         images={Images}
       />
@@ -34,14 +42,32 @@ export default function Products({}) {
   };
 
   return (
-    <View>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.ProductId}
-        renderItem={(item) => renderItem(item)}
-        numColumns={2}
-        progressViewOffset={10}
-      />
+    <View style={styles.container}>
+      {productList !== null ? (
+        <FlatList
+          data={productList}
+          keyExtractor={(item) => item.ProductId}
+          renderItem={(item) => renderItem(item)}
+          numColumns={2}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => loadData()}
+        />
+      ) : (
+        <View style={styles.indicatorView}>
+          <ActivityIndicator color={"blue"} size={40} />
+        </View>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  indicatorView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

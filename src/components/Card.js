@@ -19,13 +19,7 @@ export default function Card({
     <View style={styles.container}>
       <Text style={styles.collection}>{Collection}</Text>
 
-      <View
-        style={{
-          width: width / 2.4,
-          height: height / 3,
-          margin: 4,
-        }}
-      >
+      <View style={styles.card}>
         <ImageComponent image={image} />
 
         <Text style={{ textAlign: "center" }}>{ProductTitle}</Text>
@@ -42,5 +36,11 @@ const styles = StyleSheet.create({
   },
   collection: {
     textAlign: "center",
+  },
+  card: {
+    width: width / 2.2,
+    height: height / 3,
+    marginRight: 4,
+    marginLeft: 4,
   },
 });
