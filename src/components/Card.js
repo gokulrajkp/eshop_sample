@@ -23,7 +23,7 @@ export default function Card({
         <ImageComponent image={image} />
 
         <Text style={{ textAlign: "center" }}>{ProductTitle}</Text>
-        <Text style={{ textAlign: "center" }}>{Price}</Text>
+        <Text style={styles.price}>${Price}</Text>
       </View>
     </View>
   );
@@ -42,5 +42,11 @@ const styles = StyleSheet.create({
     height: height / 3,
     marginRight: 4,
     marginLeft: 4,
+  },
+  price: {
+    textAlign: "center",
+    fontWeight: "bold",
+    paddingTop: 4,
+    paddingBottom: 4,
   },
 });

@@ -7,7 +7,9 @@ import Feedback from "../screens/Feedback";
 export default function TabNavigation() {
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator screenOptions={{ tabBarHideOnKeyboard: true }}>
+    <Tab.Navigator
+      screenOptions={{ tabBarHideOnKeyboard: true, headerShown: false }}
+    >
       <Tab.Screen
         options={{ tabBarIcon: () => <MaterialIcon name="home" size={20} /> }}
         name="Products"
